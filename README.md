@@ -114,3 +114,19 @@ The Idle/Engage set mode can be changed via the commands `//showset idle [Normal
 
 Use `//showset autows "Exact name of WS"` to enable the AutoWS.
 <br>The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
+
+<h2>■ Addon commands:</h2>
+
+| Command                            | Description                                                                |
+|------------------------------------|----------------------------------------------------------------------------|
+| `//showset help`                   | Show this help menu                                                        |
+| `//showset idle [mode]`            | Set Idle mode (e.g., `Normal`, `PDT`)                                      |
+| `//showset engage [mode]`          | Set Engage mode (e.g., `Acc`, `Hybrid`)                                    |
+| `//showset autows [name]`          | Set Auto WS (e.g., `Savage Blade`)                                         |
+| `//showset wsaccuracy [mode]`      | Set WS accuracy mode to show icon (`Normal` or `Accuracy`)                |
+| `//showset luzaf [On/Off]`         | Toggle Luzaf Ring icon display                                             |
+| `//showset showset [on/off]`       | Show or hide the main ShowSet HUD                                          |
+| `//showset showroll [on/off]`      | Show or hide the Phantom Roll HUD                                          |
+| `//showset resetaccuracy`          | Reset accuracy and critical hit tracking                                   |
+| `//showset save`                   | Save the current HUD positions to `settings.xml`                           |
+| `//showset refresh`                | Force refresh the HUD display manually                                     |
