@@ -1,4 +1,4 @@
-## ■ INTRODUCTION:
+## ■ Introduction:
 
 ShowSet is a Windower addon for Final Fantasy XI that provides a customizable HUD displaying your gear modes (Normal, Accuracy, DT, etc.), accuracy%, visually track your COR rolls and set an automatic Weapon Skill mode.
 
@@ -41,7 +41,7 @@ Each HUD can be toggled individually.
 You don't have to set up anything. When you roll as Corsair, the ShowRoll HUD will automatically display.
 <br>This HUD can be toggled on/off in the settings.xml or via the in-game command //showset showroll [on/off]
 
-**⚔️ShowSet:**
+**⚔️ShowSet HUD:**
 
 **How to display your Idle/Engage set mode on the HUD:**
 
