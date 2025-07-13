@@ -10,28 +10,29 @@ Each HUD can be toggled individually.
 
 ## ■ Features:
 
-- Shows your current accuracy% (incl. miss and crit%) and shows your current Idle and Engage set mode.
-<br>SCREENSHOT
+- **Shows your current accuracy% (incl. miss and crit%) and shows your current Idle and Engage set mode.**
+<br>![alt text](https://i.imgur.com/E2fxKq4.png)
 
-- Shows additional icons such as:
+- **Shows additional icons such as:**
     <ul>
     <li>Weapon Skill accuracy mode (🧿)</li>
     <li>Your COR Luzaf Ring mode (💍❌ if not equipped)</li>
     <li>Your BLU Spell set (Magic: 🔮, Melee Accuracy: 🧿, Treasure Hunter: 🗝️)</li>
     </ul>
-SCREENSHOT
+    
+  ![alt text](https://i.imgur.com/mymwaGZ.png)
 
-- As Corsair, show your current rolls, lucky and unlucky numbers.
 
-SCREENSHOT
+- **As Corsair, shows your current rolls, lucky and unlucky numbers.**
+  <br>![alt text](https://i.imgur.com/aRJBgT8.png)
 
-- When AutoWS is enabled, show the current Weapon Skill that will automatically be used when reaching 1000TP.
-SCREENSHOT
+- **When AutoWS is enabled, shows the current Weapon Skill that will automatically be used when reaching 1000TP.**
+  <br>![alt text](https://i.imgur.com/wntplNH.png)
 
 <h2>■ How to install:</h2>
 
 - Place the "ShowSet" folder into your Windower4\addon\ folder.
-- In Game, type //lua load showset to launch the addon.
+- In Game, type `//lua load showset` to launch the addon.
 
 <h2>■ How to setup:</h2>
 
