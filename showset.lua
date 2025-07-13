@@ -321,6 +321,15 @@ windower.register_event('action', function(act)
     local player = windower.ffxi.get_player()
     if not player or act.actor_id ~= player.id then return end
 
+    local affected_players = 0
+
+    for _, target in ipairs(act.targets) do
+        local mob = windower.ffxi.get_mob_by_id(target.id)
+        if mob and not mob.is_npc and not mob.is_pet then
+            affected_players = affected_players + 1
+        end
+    end
+
     if act.category == 6 then
         local ability = res.job_abilities[act.param]
         if ability and Rolls[ability.en] then
@@ -331,8 +340,8 @@ windower.register_event('action', function(act)
             local icon = get_roll_icon(roll, lucky, unlucky)
             local colored = color_roll_number(roll, lucky, unlucky)
             local text = string.format(
-                "🎲 %s\n            %s\n👍 \\cs(110,190,135)%d\\cr   [  %s  ]  👎 \\cs(240,60,60)%d\\cr",
-                ability.en, icon, lucky, colored, unlucky
+                "🎲 %s  🧍%s\n            %s\n👍 \\cs(110,190,135)%d\\cr   [  %s  ]  👎 \\cs(240,60,60)%d\\cr",
+                ability.en, affected_players, icon, lucky, colored, unlucky
             )
 
             if settings.showroll.show then
