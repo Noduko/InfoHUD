@@ -1,4 +1,4 @@
-■ INTRODUCTION:
+## ■ INTRODUCTION:
 
 ShowSet is a Windower addon for Final Fantasy XI that provides a customizable HUD displaying your gear modes (Normal, Accuracy, DT, etc.), accuracy%, visually track your COR rolls and set an automatic Weapon Skill mode.
 
@@ -8,52 +8,76 @@ There are 2 HUDs:
 
 Each HUD can be toggled individually.
 
-■ FEATURES:
+## ■ Features:
 
-<ul>
-<li>Show your current accuracy% (incl. miss and crit%) and shows your current Idle and Engage set mode.
+- Shows your current accuracy% (incl. miss and crit%) and shows your current Idle and Engage set mode.
+<br>SCREENSHOT
+
+- Shows additional icons such as:
+    <ul>
+    <li>Weapon Skill accuracy mode (🧿)</li>
+    <li>Your COR Luzaf Ring mode (💍❌ if not equipped)</li>
+    <li>Your BLU Spell set (Magic: 🔮, Melee Accuracy: 🧿, Treasure Hunter: 🗝️)</li>
+    </ul>
 SCREENSHOT
-</li>
 
-<li>Show additional icons such as Weapon Skill accuracy mode (🧿), your COR Luzaf Ring mode (💍❌ if not equipped) or your BLU Spell set (Magic: 🔮, Melee Accuracy: 🧿, Treasure Hunter: 🗝️)
+- As Corsair, show your current rolls, lucky and unlucky numbers.
+
 SCREENSHOT
-</li>
 
-<li>As Corsair, show your current rolls, lucky and unlucky numbers.
+- When AutoWS is enabled, show the current Weapon Skill that will automatically be used when reaching 1000TP.
 SCREENSHOT
-</li>
+
+<h2>■ How to install:</h2>
+
+- Place the "ShowSet" folder into your Windower4\addon\ folder.
+- In Game, type //lua load showset to launch the addon.
+
+<h2>■ How to setup:</h2>
+
+**🎲ShowRoll HUD:**
+
+You don't have to set up anything. When you roll as Corsair, the ShowRoll HUD will automatically display.
+<br>This HUD can be toggled on/off in the settings.xml or via the in-game command //showset showroll [on/off]
+
+**⚔️ShowSet:**
+
+**How to display your Idle/Engage set mode on the HUD:**
+
+The Idle/Engage set mode can be changed via the commands `//showset idle [Normal|PDT, etc.]` and `//showset engage [Normal|Accuracy|PDT, etc.]`
 
 
-<li>When AutoWS is enabled, show the current Weapon Skill that will automatically be used when reaching 1000TP.
-SCREENSHOT
-</li>
-</ul>
+**GearSwap integration:**
 
+- **Option 1:**
+  <br>If you change your Idle/Engage mode via a "state", add the function "update_showset_display" at the bottom of your lua and call this function whenever you change your Idle/Engage mode.
 
-How to install:
+<pre>function get_sets()
+    
+    include('Modes')
 
-Place the "ShowSet" folder into your Windower4\addon\ folder.
-In Game, type //lua load showset to launch the addon.
+    state = {}
+    state.IdleMode = M{'Normal', 'DT'}
+    state.EngageMode = M{'Normal', 'Accuracy', 'DT', 'TH'}
+    state.AutoWS = M{'Off', 'Tachi: Fudo', 'Tachi: Shoha'} -- Change the Weapon Skills you want to spam automatically when you reach 1000 TP.
 
-Setup:
+    update_showset_display()
 
-ShowRoll:
-You don't have to change anything. When you roll as Corsair, the ShowRoll HUD will automatically display.
-This HUD can be toggled on/off in the settings.xml or via the in-game command //showset showroll [on/off]
-
-ShowSet:
-
-How to display your Idle/Engage set mode:
-
-The Idle/Engage set mode can be changed via the commands //showset idle [Normal|PDT, etc.] and //showset engage [Normal|Accuracy|PDT, etc.]
-
-
-GearSwap integration:
-
-If you change your Idle/Engage mode via a "state" (e.g. state.EngageMode = M{'Normal', 'Accuracy', 'DT', 'TH'}):
-
-Add the function update_showset_display at the bottom of your lua:
-function update_showset_display()
+    [...]
+    
+    function self_command(command)
+    if command == 'equip TP.Normal set' then
+        state.EngageMode:set('Normal')
+        update_showset_display()
+        send_command('input /echo -- TP Set changed to Normal.')
+        if player.status == 'Engaged' then
+            equip(sets.TP.Normal)
+        end
+    end
+    
+    [...]
+    
+    function update_showset_display()
     
     windower.send_command('showset idle ' .. state.IdleMode.value)
     windower.send_command('showset engage ' .. state.EngageMode.value)
@@ -62,29 +86,30 @@ function update_showset_display()
     --Extra:
     -- windower.send_command('showset wsaccuracy ' .. state.WSAccuracyMode.value)
     -- windower.send_command('showset luzaf ' .. state.LuzafRing.value)
-end
+    end</pre>
 
-*You can find an example in my Template.lua.
+<br>
 
-If you change your Idle/Engage mode directly with a command:
+- **Option 2:**
+<br>If you change your Idle/Engage mode directly with a command, add `send_command('showset idle <Name of your set>')` after changing your Idle set mode and `send_command('showset engage <Name of your set>')` after changing your Engage set mode.
 
-Add "send_command('showset idle <Name of your set>')" after changing your Idle set mode.
-Add "send_command('showset engage <Name of your set>')" after changing your Engage set mode.
+<br>
 
-If you have no clue what any of this means, don't worry! You can use one of my lua template which is made easy to use.
+- **Option 3:**
+<br>If you have no clue what any of this means, don't worry! You can use one of my lua template which is made easy to use.
 
-How to display extra icons:
+**How to display extra icons:**
 
-When you swap for your Weapon Skill Accuracy set, use //showset wsaccuracy [Normal|Accuracy] to hide or display a 🧿 icon.
-When you swap your Luzaf Ring off as COR, use //showset luzaf [On|Off] to hide or display a 💍❌ icon.
-For Blue Mages, an icon will be displayed when a specific spell is set.
+- When you swap for your Weapon Skill Accuracy set, use `//showset wsaccuracy [Normal|Accuracy]` to hide ("Normal") or display ("Accuracy") a 🧿 icon.
+- When you swap your Luzaf Ring off as COR, use `//showset luzaf [On|Off]` to hide or display a 💍❌ icon.
+- For Blue Mages, an icon will be displayed when a specific spell is set.
+    - "Spectral Floe" will display "🔮" (usually used for AoE Magic set).
+    - "Anvil Lightning" will display "🧿" (usually used for Melee Accuracy set).
+    - "Amorphic Spikes" will display "🗝️" (usually used for Treasure Hunter set)
 
-"Spectral Floe" will display "🔮" (usually used for AoE Magic set).
-"Anvil Lightning" will display "🧿" (usually used for Melee Accuracy set).
-"Amorphic Spikes" will display "🗝️" (usually used for Treasure Hunter set)
+<br>*These spells and icons can be changed in the showset.lua file.
 
-These spells and icons can be changed in the showset.lua file.
+**How to use the AutoWS feature:**
 
-How to use the AutoWS feature:
-
-Use //showset autows "Exact name of WS" to enable the AutoWS. The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
+Use `//showset autows "Exact name of WS"` to enable the AutoWS.
+<br>The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
