@@ -205,24 +205,6 @@ windower.register_event('job change', function()
     end, 2) -- wait 2 seconds before updating
 end)
 
--- Auto-update on login
-windower.register_event('login', function()
-    coroutine.schedule(function()
-        update_equipped_blu_spell_icon()
-        update_showset_display()
-        set_hud_visibility(true)
-    end, 3)
-end)
-
--- Event: Zone change - reset counters and update display. Comment if you don't want to reset counters on zone change.
-windower.register_event('zone change', function()
-    total_swings, total_hits, total_crits = 0, 0, 0
-    coroutine.schedule(update_showset_display, 3)
-end)
-
---Hide HUD when interacting with NPC or loading
-local showset_display_hidden = false
-
 -- Function to set HUD visibility (true to show, false to hide)
 local function set_hud_visibility(visible)
     if not showset_display then return end
@@ -240,6 +222,30 @@ local function update_hud_visibility()
     local is_cutscene = player and player.status == 4
     set_hud_visibility(not is_cutscene)
 end
+
+-- Auto-update on login
+windower.register_event('login', function()
+    coroutine.schedule(function()
+        update_equipped_blu_spell_icon()
+        update_showset_display()
+        set_hud_visibility(true)
+    end, 3)
+end)
+
+-- Hide HUD on logout to prevent showing on title screen
+windower.register_event('logout', function()
+    set_hud_visibility(false)
+end)
+
+
+-- Event: Zone change - reset counters and update display. Comment if you don't want to reset counters on zone change.
+windower.register_event('zone change', function()
+    total_swings, total_hits, total_crits = 0, 0, 0
+    coroutine.schedule(update_showset_display, 3)
+end)
+
+--Hide HUD when interacting with NPC or loading
+local showset_display_hidden = false
 
 -- Event: Cutscene/menu/combat status changed
 windower.register_event('status change', update_hud_visibility)
