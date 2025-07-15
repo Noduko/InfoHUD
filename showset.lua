@@ -1,6 +1,6 @@
 -- showset.lua
 _addon.name = 'ShowSet'
-_addon.author = 'DreamEyes'
+_addon.author = 'DreamEyes (Bahamut)'
 _addon.version = '1.0'
 _addon.commands = {'showset'}
 
@@ -37,26 +37,10 @@ local default_settings = {
 
 local settings = config.load(default_settings)
 local player = windower.ffxi.get_player()
-local job_short = player and player.main_job:lower()
+local showset_hud_visible = false
 
 
--- Get the HUD background color based on job
-local function get_job_background_color(job)
-    local color = settings.showset.background[job]
-
-    -- If job colour is not defined, use default
-    if color then return color end
-    return {
-        red = settings.bg_red or 0,
-        green = settings.bg_green or 0,
-        blue = settings.bg_blue or 0,
-        alpha = settings.bg_alpha or 100,
-    }
-end
-
--- Create HUD showing accuracy, gearset and AutoWS mode
-local job_color = get_job_background_color(job_short)
-
+-- Create HUD textbox
 local showset_display = texts.new({
     pos = {x = settings.showset.x, y = settings.showset.y},
     text = {
@@ -72,10 +56,10 @@ local showset_display = texts.new({
     },
     
    bg = {
-        red = job_color.red,
-        green = job_color.green,
-        blue = job_color.blue,
-        alpha = job_color.alpha,
+        red = 0,
+        green = 0,
+        blue = 0,
+        alpha = 100,
     },
     padding = settings.showset.padding,
     flags = {draggable = true},
@@ -120,9 +104,31 @@ local function update_equipped_blu_spell_icon()
     end
 end
 
--- Update HUD display
+-- Get the HUD background color based on job
+local function get_job_background_color(job)
+    local color = settings.showset.background[job]
+
+    -- If job colour is not defined, use default
+    if color then return color end
+    return {
+        red = settings.bg_red or 0,
+        green = settings.bg_green or 0,
+        blue = settings.bg_blue or 0,
+        alpha = settings.bg_alpha or 100,
+    }
+end
+
+-- Update HUD display with variables
 local function update_showset_display()
 
+    local player = windower.ffxi.get_player()
+    local job_color = get_job_background_color(player and player.main_job:lower())
+
+    -- Update the HUD background color
+    showset_display:bg_color(job_color.red, job_color.green, job_color.blue)
+    showset_display:bg_alpha(job_color.alpha)
+
+    -- Define accuracy, crit% and miss variables
     local accuracy_percent = (total_swings > 0) and math.floor((total_hits / total_swings) * 100) or 100
     local crit_percent = (total_hits > 0) and math.floor((total_crits / total_hits) * 100) or 0
     local total_misses = total_swings - total_hits
@@ -132,6 +138,7 @@ local function update_showset_display()
     and string.format("🏹 %d%% ( %d | %d%% )", accuracy_percent, total_misses, crit_percent)
     or "🏹 --                      "
 
+    -- Define what conditional icons should be displayed
     local wsaccuracy_info = (wsaccuracy_mode ~= 'Normal') and ' 🧿' or ''
     local luzaf_ring_info = (luzaf_ring == 'Off') and ' 💍❌' or '' 
     update_equipped_blu_spell_icon()
@@ -143,6 +150,7 @@ local function update_showset_display()
     -- This is what will be displayed on the HUD (3rd line) only if the AutoWS mode is not 'Off'.
     local autows_info = (autows_mode ~= 'Off') and string.format("⚙: \\cs(205,205,125)%s\\cr", autows_mode) or ''
 
+    -- Displays AutoWS info only if the AutoWS mode is not 'Off'
     local text = accuracy_info .. '\n' .. gearset_info
     if autows_info ~= '' then
         text = text .. '\n' .. autows_info
@@ -191,8 +199,7 @@ windower.register_event('job change', function()
     luzaf_ring = 'On'
 
     local player = windower.ffxi.get_player()
-    local job_short = player and player.main_job:lower()
-    local job_color = get_job_background_color(job_short)
+    local job_color = get_job_background_color(player and player.main_job:lower())
 
     -- Update the HUD background color
     showset_display:bg_color(job_color.red, job_color.green, job_color.blue)
@@ -200,36 +207,53 @@ windower.register_event('job change', function()
 
  -- Delay update for BLU spell detection
     coroutine.schedule(function()
-        update_equipped_blu_spell_icon()
         update_showset_display()
     end, 2) -- wait 2 seconds before updating
 end)
 
--- Function to set HUD visibility (true to show, false to hide)
-local function set_hud_visibility(visible)
-    if not showset_display then return end
-    if visible and showset_display_hidden then
-        showset_display:show()
-        showset_display_hidden = false
-    elseif not visible and not showset_display_hidden then
-        showset_display:hide()
-        showset_display_hidden = true
-    end
+local function test()
+    -- This function is for testing purposes only.
+ 
 end
 
-local function update_hud_visibility()
+-- Function to set HUD visibility (true to show, false to hide)
+local function set_hud_visibility(visible)
+
     local player = windower.ffxi.get_player()
-    local is_cutscene = player and player.status == 4
-    set_hud_visibility(not is_cutscene)
+
+    -- Hide HUD if there is no character or main job
+    if not player or not player.main_job then
+        showset_display:hide()
+        showset_hud_visible = false
+        return
+    
+        -- Hide HUD if argument visible is false and the HUD is currently visible
+        elseif not visible and showset_hud_visible then
+            showset_display:hide()
+            showset_hud_visible = false
+            return
+            
+        -- Hide HUD if in cutscene or interacting with NPC
+        elseif player and player.status == 4 then
+            showset_display:hide()
+            showset_hud_visible = false
+            return
+
+        -- Display HUD if argument visible is true and the HUD is currently not visible
+        elseif visible and not showset_hud_visible then
+            showset_display:show()
+            showset_hud_visible = true
+    end
+    
 end
 
 -- Auto-update on login
 windower.register_event('login', function()
+    
     coroutine.schedule(function()
-        update_equipped_blu_spell_icon()
         update_showset_display()
         set_hud_visibility(true)
-    end, 3)
+    end, 10)
 end)
 
 -- Hide HUD on logout to prevent showing on title screen
@@ -244,15 +268,16 @@ windower.register_event('zone change', function()
     coroutine.schedule(update_showset_display, 3)
 end)
 
---Hide HUD when interacting with NPC or loading
-local showset_display_hidden = false
+-- --Hide HUD when interacting with NPC or loading
+-- local showset_hud_visible = false
 
 -- Event: Cutscene/menu/combat status changed
-windower.register_event('status change', update_hud_visibility)
+-- windower.register_event('status change', set_hud_visibility(true))
 
--- Event: Zoning - hide HUD for safety
-windower.register_event('zone change', function()
-    set_hud_visibility(false)
+windower.register_event('status change', function()
+        
+    set_hud_visibility(true)
+
 end)
 
 -- If AutoWS is enabled, use Weapon Skill automatically when TP reaches 1000
@@ -459,10 +484,11 @@ windower.register_event('addon command', function(cmd, ...)
 
         elseif cmd == 'help' then
             print_help()
-            return
+            return   
     end
     
     update_showset_display()
+    
 end)
 
 
@@ -482,5 +508,5 @@ Rolls = {
 	["Wizard's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},
 }
 
-update_equipped_blu_spell_icon()
 update_showset_display()
+set_hud_visibility(true)
