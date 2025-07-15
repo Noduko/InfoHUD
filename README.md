@@ -23,8 +23,8 @@ Each HUD can be toggled individually.
   ![alt text](https://i.imgur.com/mymwaGZ.png)
 
 
-- **As Corsair, shows your current rolls, lucky and unlucky numbers.**
-  <br>![alt text](https://i.imgur.com/aRJBgT8.png)
+- **As Corsair, shows your current rolls, lucky, unlucky numbers and affected players.**
+  <br>![alt text](https://i.imgur.com/2AnAv1T.png)
 
 - **When AutoWS is enabled, shows the current Weapon Skill that will automatically be used when reaching 1000TP.**
   <br>![alt text](https://i.imgur.com/wntplNH.png)
@@ -97,7 +97,7 @@ The Idle/Engage set mode can be changed via the commands `//showset idle [Normal
 <br>
 
 - **Option 3:**
-<br>If you have no clue what any of this means, don't worry! You can use one of my lua template which is made easy to use.
+<br>If you have no clue what any of this means, don't worry! You can use one of my lua template available [here](https://github.com/Noduko/FFXI-Dream-UI) (addons > GearSwap > Data) which is made easy to use.
 
 **How to display extra icons:**
 
