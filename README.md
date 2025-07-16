@@ -1,6 +1,6 @@
 ## ■ Introduction:
 
-InfoHud is a Windower addon for Final Fantasy XI that provides a customizable HUD displaying your gear modes (Normal, Accuracy, DT, etc.), accuracy%, visually track your COR rolls and set an automatic Weapon Skill mode.
+InfoHUD is a Windower addon for Final Fantasy XI that provides a customizable HUD displaying your gear modes (Normal, Accuracy, DT, etc.), accuracy%, visually track your COR rolls and set an automatic Weapon Skill mode.
 
 The addon features 2 HUDs:
 - ShowSet (displays your accuracy, Idle/Engage set mode and AutoWS)
