@@ -152,7 +152,7 @@ local function update_showset_display()
     local gearset_info = string.format("⚔️ %s %s %s %s\n 🧍  %s", engage_mode, wsaccuracy_info, luzaf_ring_info, blu_magic_set_info, idle_mode)
     
     -- This is what will be displayed on the HUD (3rd line) only if the AutoWS mode is not 'Off'.
-    local autows_info = (autows_mode ~= 'Off') and string.format("⚙: \\cs(205,205,125)%s\\cr", autows_mode) or ''
+    local autows_info = (autows_mode ~= 'Off') and string.format("⚙ \\cs(205,205,125)%s\\cr", autows_mode) or ''
 
     -- Displays AutoWS info only if the AutoWS mode is not 'Off'
     local text = accuracy_info .. '\n' .. gearset_info
