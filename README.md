@@ -110,7 +110,7 @@ The Idle/Engage set mode can be changed via the commands `//showset idle [Normal
 
 <br>*These spells and icons can be changed in the showset.lua file.
 
-**How to use the AutoWS feature:**
+**⚙️AutoWS feature:**
 
 Use `//showset autows "Exact name of WS"` to enable the AutoWS.
 <br>The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
