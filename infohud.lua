@@ -1,15 +1,19 @@
 -- showset.lua
-_addon.name = 'ShowSet'
+_addon.name = 'InfoHUD'
 _addon.author = 'DreamEyes (Bahamut)'
 _addon.version = '1.0'
-_addon.commands = {'showset'}
+_addon.commands = {'infohud', 'hud', 'showset'}
 
 local texts = require('texts')
 local config = require('config')
 local res = require('resources')
 
+-- This addon features 2 HUDs:
+-- • ShowSet: displays accuracy, Idle/Engage sets and AutoWS mode.
+-- • ShowRoll: displays Corsair's roll, lucky/unlucky numbers and affected players.
 
 
+------------------------------- SHOWSET HUD ------------------------------
 ----------------------- ACCURACY & SET DISPLAY HUD -----------------------
 
 -- Default settings
@@ -295,7 +299,7 @@ end)
 
 
 
-
+----------------------------- SHOWROLL HUD -----------------------------
 ----------------------- CORSAIR ROLL TRACKER HUD -----------------------
 
 -- Create HUD showing COR rolls
@@ -394,20 +398,45 @@ windower.register_event('lose buff', function(buff_id)
     end
 end)
 
--- Show all commands when typing //showset help in the console
+Rolls = {
+	["Magus's Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	["Choral Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	["Samurai Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	
+	["Scholar's Roll"]		=	{Lucky = 2,	Unlucky = 6	},	["Caster's Roll"]		=	{Lucky = 2,	Unlucky = 7	},	["Companion's Roll"]	=	{Lucky = 2,	Unlucky = 10},
+	["Naturalist's Roll"]	=	{Lucky = 3,	Unlucky = 7	},	["Healer's Roll"]		=	{Lucky = 3,	Unlucky = 7	},	["Monk's Roll"]			=	{Lucky = 3,	Unlucky = 7	},	
+	["Puppet Roll"]			=	{Lucky = 3,	Unlucky = 7	},	["Gallant's Roll"]		=	{Lucky = 3,	Unlucky = 7	},	["Dancer's Roll"]		=	{Lucky = 3,	Unlucky = 7	},
+	["Bolter's Roll"]		=	{Lucky = 3,	Unlucky = 9	},	["Courser's Roll"]		=	{Lucky = 3,	Unlucky = 9	},	["Allies' Roll"]		=	{Lucky = 3,	Unlucky = 10},	
+	["Runeist's Roll"]		=	{Lucky = 4,	Unlucky = 8	}, 	["Ninja's Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Hunter's Roll"]		=	{Lucky = 4,	Unlucky = 8	},
+	["Chaos Roll"]			=	{Lucky = 4,	Unlucky = 8	},	["Drachen Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Beast Roll"]			=	{Lucky = 4,	Unlucky = 8	},	
+	["Warlock's Roll"] 		=	{Lucky = 4,	Unlucky = 8	},	["Avenger's Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Blitzer's Roll"]		=	{Lucky = 4,	Unlucky = 9	},
+	["Miser's Roll"]		=	{Lucky = 5,	Unlucky = 7	},	["Tactician's Roll"]	=	{Lucky = 5,	Unlucky = 8	},	["Corsair's Roll"]		=	{Lucky = 5,	Unlucky = 9	},	
+	["Evoker's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	["Rogue's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	["Fighter's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	
+	["Wizard's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},
+}
+
+
+
+
+
+
+
+
+
+----------------------- ADDON COMMANDS -----------------------
+
+-- Show all commands when typing //infohud help in the console
+
 local function print_help()
-    windower.add_to_chat(207, "[ShowSet Commands]")
-    windower.add_to_chat(207, "//showset help                   - Show this help menu")
-    windower.add_to_chat(207, "//showset idle [mode]           - Set Idle mode (e.g., Normal, PDT)")
-    windower.add_to_chat(207, "//showset engage [mode]       - Set Engage mode (e.g., Acc, Hybrid)")
-    windower.add_to_chat(207, "//showset autows [name]       - Set Auto WS (e.g., Savage Blade)")
-    windower.add_to_chat(207, "//showset wsaccuracy [mode]  - Set WS accuracy mode to display the icon (Normal or Accuracy)")
-    windower.add_to_chat(207, "//showset luzaf [On|Off]        - Toggle Luzaf Ring icon display")
-    windower.add_to_chat(207, "//showset showset [on|off]     - Show/hide ShowSet HUD")
-    windower.add_to_chat(207, "//showset showroll [on|off]    - Show/hide Roll HUD")
-    windower.add_to_chat(207, "//showset resetaccuracy        - Reset accuracy/crit tracking")
-    windower.add_to_chat(207, "//showset save                   - Save HUD positions to settings.xml")
-    windower.add_to_chat(207, "//showset refresh                - Force refresh the HUDs")
+    windower.add_to_chat(207, "[InfoHUD Commands]")
+    windower.add_to_chat(207, "//infohud help                   - Show this help menu")
+    windower.add_to_chat(207, "//infohud idle [mode]           - Set Idle mode (e.g., Normal, PDT)")
+    windower.add_to_chat(207, "//infohud engage [mode]       - Set Engage mode (e.g., Acc, Hybrid)")
+    windower.add_to_chat(207, "//infohud autows [name]       - Set Auto WS (e.g., Savage Blade)")
+    windower.add_to_chat(207, "//infohud wsaccuracy [mode]  - Set WS accuracy mode to display the icon (Normal or Accuracy)")
+    windower.add_to_chat(207, "//infohud luzaf [On|Off]        - Toggle Luzaf Ring icon display")
+    windower.add_to_chat(207, "//infohud showset [on|off]     - Show/hide ShowSet HUD")
+    windower.add_to_chat(207, "//infohud showroll [on|off]    - Show/hide Roll HUD")
+    windower.add_to_chat(207, "//infohud resetaccuracy        - Reset accuracy/crit tracking")
+    windower.add_to_chat(207, "//infohud save                   - Save HUD positions to settings.xml")
+    windower.add_to_chat(207, "//infohud refresh                - Force refresh the HUDs")
 end
 
 -- Custom commands for the ShowSet and ShowRoll HUD (can be triggered from GearSwap or manually)
@@ -490,23 +519,6 @@ windower.register_event('addon command', function(cmd, ...)
     update_showset_display()
     
 end)
-
-
-
-
-Rolls = {
-	["Magus's Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	["Choral Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	["Samurai Roll"] 		=	{Lucky = 2,	Unlucky = 6	},	
-	["Scholar's Roll"]		=	{Lucky = 2,	Unlucky = 6	},	["Caster's Roll"]		=	{Lucky = 2,	Unlucky = 7	},	["Companion's Roll"]	=	{Lucky = 2,	Unlucky = 10},
-	["Naturalist's Roll"]	=	{Lucky = 3,	Unlucky = 7	},	["Healer's Roll"]		=	{Lucky = 3,	Unlucky = 7	},	["Monk's Roll"]			=	{Lucky = 3,	Unlucky = 7	},	
-	["Puppet Roll"]			=	{Lucky = 3,	Unlucky = 7	},	["Gallant's Roll"]		=	{Lucky = 3,	Unlucky = 7	},	["Dancer's Roll"]		=	{Lucky = 3,	Unlucky = 7	},
-	["Bolter's Roll"]		=	{Lucky = 3,	Unlucky = 9	},	["Courser's Roll"]		=	{Lucky = 3,	Unlucky = 9	},	["Allies' Roll"]		=	{Lucky = 3,	Unlucky = 10},	
-	["Runeist's Roll"]		=	{Lucky = 4,	Unlucky = 8	}, 	["Ninja's Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Hunter's Roll"]		=	{Lucky = 4,	Unlucky = 8	},
-	["Chaos Roll"]			=	{Lucky = 4,	Unlucky = 8	},	["Drachen Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Beast Roll"]			=	{Lucky = 4,	Unlucky = 8	},	
-	["Warlock's Roll"] 		=	{Lucky = 4,	Unlucky = 8	},	["Avenger's Roll"]		=	{Lucky = 4,	Unlucky = 8	},	["Blitzer's Roll"]		=	{Lucky = 4,	Unlucky = 9	},
-	["Miser's Roll"]		=	{Lucky = 5,	Unlucky = 7	},	["Tactician's Roll"]	=	{Lucky = 5,	Unlucky = 8	},	["Corsair's Roll"]		=	{Lucky = 5,	Unlucky = 9	},	
-	["Evoker's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	["Rogue's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	["Fighter's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},	
-	["Wizard's Roll"] 		=	{Lucky = 5,	Unlucky = 9	},
-}
 
 update_showset_display()
 set_hud_visibility(true)
