@@ -29,26 +29,26 @@ Each HUD can be toggled individually.
 - **When AutoWS is enabled, shows the current Weapon Skill that will automatically be used when reaching 1000TP.**
   <br>![alt text](https://i.imgur.com/wntplNH.png)
 
-<h2>■ How to install:</h2>
+## ■ How to install:
 
 - Place the "ShowSet" folder into your Windower4\addon\ folder.
 - In Game, type `//lua load showset` to launch the addon.
 
-<h2>■ How to setup:</h2>
+## ■ How to setup:
 
-**🎲ShowRoll HUD:**
+### **🎲ShowRoll HUD:**
 
 You don't have to set up anything. When you roll as Corsair, the ShowRoll HUD will automatically display.
 <br>This HUD can be toggled on/off in the settings.xml or via the in-game command //showset showroll [on/off]
 
-**⚔️ShowSet HUD:**
+### **⚔️ShowSet HUD:**
 
 **How to display your Idle/Engage set mode on the HUD:**
 
 The Idle/Engage set mode can be changed via the commands `//showset idle [Normal|PDT, etc.]` and `//showset engage [Normal|Accuracy|PDT, etc.]`
 
 
-**GearSwap integration:**
+#### **GearSwap integration:**
 
 - **Option 1:**
   <br>If you change your Idle/Engage mode via a "state", add the function "update_showset_display" at the bottom of your lua and call this function whenever you change your Idle/Engage mode.
@@ -99,7 +99,7 @@ The Idle/Engage set mode can be changed via the commands `//showset idle [Normal
 - **Option 3:**
 <br>If you have no clue what any of this means, don't worry! You can use one of my lua template available [here](https://github.com/Noduko/FFXI-Dream-UI) (addons > GearSwap > Data) which is made easy to use.
 
-**How to display extra icons:**
+#### **How to display extra icons:**
 
 - When you swap for your Weapon Skill Accuracy set, use `//showset wsaccuracy [Normal|Accuracy]` to hide ("Normal") or display ("Accuracy") a 🧿 icon.
 - When you swap your Luzaf Ring off as COR, use `//showset luzaf [On|Off]` to hide or display a 💍❌ icon.
@@ -110,12 +110,12 @@ The Idle/Engage set mode can be changed via the commands `//showset idle [Normal
 
 <br>*These spells and icons can be changed in the showset.lua file.
 
-**⚙️AutoWS feature:**
+### **⚙️AutoWS feature:**
 
 Use `//showset autows "Exact name of WS"` to enable the AutoWS.
 <br>The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
 
-<h2>■ Addon commands:</h2>
+## ■ Addon commands:
 
 | Command                            | Description                                                                |
 |------------------------------------|----------------------------------------------------------------------------|
