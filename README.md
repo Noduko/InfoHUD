@@ -27,7 +27,7 @@ Each HUD can be toggled individually.
   <br>![alt text](https://i.imgur.com/2AnAv1T.png)
 
 - **When AutoWS is enabled, shows the current Weapon Skill that will automatically be used when reaching 1000TP.**
-  <br>![alt text](https://i.imgur.com/wntplNH.png)
+  <br>![alt text](https://i.imgur.com/2PkYMRD.png)
 
 ## ■ How to install:
 
