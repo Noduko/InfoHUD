@@ -112,7 +112,7 @@ The Idle/Engage set mode can be changed via the commands `//infohud idle [Normal
 
 ### **⚙️AutoWS feature:**
 
-Use `//infohud autows "Exact name of WS"` to enable the AutoWS.
+Use `//infohud autows "Exact name of WS"` to enable the AutoWS or `//infohud autows off` to deactivate.
 <br>The Weapon Skill will be used automatically when you're engaged and reach 1000TP.
 
 ## ■ Addon commands:
@@ -122,9 +122,9 @@ Use `//infohud autows "Exact name of WS"` to enable the AutoWS.
 | `//infohud help`                   | Show this help menu                                                        |
 | `//infohud idle [mode]`            | Set Idle mode (e.g., `Normal`, `PDT`)                                      |
 | `//infohud engage [mode]`          | Set Engage mode (e.g., `Acc`, `Hybrid`)                                    |
-| `//infohud autows [name]`          | Set Auto WS (e.g., `Savage Blade`)                                         |
-| `//infohud wsaccuracy [mode]`      | Set WS accuracy mode to show icon (`Normal` or `Accuracy`)                |
-| `//infohud luzaf [On/Off]`         | Toggle Luzaf Ring icon display                                             |
+| `//infohud autows [off/name]`      | Set Auto WS (e.g., `Savage Blade`)                                         |
+| `//infohud wsaccuracy [mode]`      | Set WS accuracy mode. Normal/Off will hide the icon, anything else will display.|                |
+| `//infohud luzaf [on/off]`         | Toggle Luzaf Ring icon display                                             |
 | `//infohud showset [on/off]`       | Show or hide the main ShowSet HUD                                          |
 | `//infohud showroll [on/off]`      | Show or hide the Corsair's Roll HUD                                          |
 | `//infohud resetaccuracy`          | Reset accuracy and critical hit tracking                                   |
