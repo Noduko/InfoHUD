@@ -143,8 +143,8 @@ local function update_showset_display()
     or "🏹 --                      "
 
     -- Define what conditional icons should be displayed
-    local wsaccuracy_info = (wsaccuracy_mode ~= 'Normal') and ' 🧿' or ''
-    local luzaf_ring_info = (luzaf_ring == 'Off') and ' 💍❌' or '' 
+    local wsaccuracy_info = (wsaccuracy_mode:lower() ~= 'normal'and wsaccuracy_mode:lower() ~= 'off') and ' 🧿' or ''
+    local luzaf_ring_info = (luzaf_ring:lower() == 'off') and ' 💍❌' or '' 
     update_equipped_blu_spell_icon()
     local blu_magic_set_info = equipped_blu_spell or ""
 
@@ -152,7 +152,7 @@ local function update_showset_display()
     local gearset_info = string.format("⚔️ %s %s %s %s\n 🧍  %s", engage_mode, wsaccuracy_info, luzaf_ring_info, blu_magic_set_info, idle_mode)
     
     -- This is what will be displayed on the HUD (3rd line) only if the AutoWS mode is not 'Off'.
-    local autows_info = (autows_mode ~= 'Off') and string.format("⚙ \\cs(205,205,125)%s\\cr", autows_mode) or ''
+    local autows_info = (autows_mode:lower() ~= 'off') and string.format("⚙ \\cs(205,205,125)%s\\cr", autows_mode) or ''
 
     -- Displays AutoWS info only if the AutoWS mode is not 'Off'
     local text = accuracy_info .. '\n' .. gearset_info
@@ -288,7 +288,7 @@ end)
 windower.register_event('tp change', function(tp)
     local player = windower.ffxi.get_player() -- Refresh live player status
 
-    if player and player.status == 1 and autows_mode ~= 'Off' and tp >= 1000 then
+    if player and player.status == 1 and autows_mode:lower() ~= 'off' and tp >= 1000 then
         windower.send_command('input /ws "' .. autows_mode .. '" <t>')
     end
 end)
@@ -429,9 +429,9 @@ local function print_help()
     windower.add_to_chat(207, "//infohud help                   - Show this help menu")
     windower.add_to_chat(207, "//infohud idle [mode]           - Set Idle mode (e.g., Normal, PDT)")
     windower.add_to_chat(207, "//infohud engage [mode]       - Set Engage mode (e.g., Acc, Hybrid)")
-    windower.add_to_chat(207, "//infohud autows [name]       - Set Auto WS (e.g., Savage Blade)")
-    windower.add_to_chat(207, "//infohud wsaccuracy [mode]  - Set WS accuracy mode to display the icon (Normal or Accuracy)")
-    windower.add_to_chat(207, "//infohud luzaf [On|Off]        - Toggle Luzaf Ring icon display")
+    windower.add_to_chat(207, "//infohud autows [off/name]       - Set Auto WS (e.g., Savage Blade)")
+    windower.add_to_chat(207, "//infohud wsaccuracy [mode]  - Set WS accuracy mode. Normal/Off will hide the icon, anything else will display.")
+    windower.add_to_chat(207, "//infohud luzaf [on|off]        - Toggle Luzaf Ring icon display")
     windower.add_to_chat(207, "//infohud showset [on|off]     - Show/hide ShowSet HUD")
     windower.add_to_chat(207, "//infohud showroll [on|off]    - Show/hide Roll HUD")
     windower.add_to_chat(207, "//infohud resetaccuracy        - Reset accuracy/crit tracking")
